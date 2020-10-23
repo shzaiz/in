@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define N 500010
+#define N 1005
 #define MOD 998244353
 #define ll long long
 bool deb = 1;
@@ -48,11 +48,12 @@ void adde(int u, int v) {
 }
 
 void dfs(int u, int fa) {
-	ll an2 = ans2, pvv = -1, bkk = -1, com = 0, an1 = ans1;
+	ll an2 = ans2, pvv = -1, bkk = bk, com = 0, an1 = ans1;
 	s[++tp] = alp[u];
 	if (u == 1 && s[tp] == 0) {
 		ans2 = mul(ans2, k);
 		an2 = ans2;
+		combo = 1;
 		if(deb) printf("pos[%d] :%d  ...(1)\n", u, mul(ans2, ans1));
 		finalans ^= mul(ans2, ans1);
 	} else if (s[tp] == 0) {
