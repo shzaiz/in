@@ -1,0 +1,125 @@
+[General]
+tab_width=4
+geometry=@Rect(0 0 0 0)
+editor_font=@Variant(\0\0\0@\0\0\0\x16\0\x43\0o\0u\0r\0i\0\x65\0r\0 \0N\0\x65\0w@4\0\0\0\0\0\0\xff\xff\xff\xff\x5\x1\0\x32\x10)
+default_language=C++
+editor_theme=Light
+auto_complete_parentheses=true
+auto_remove_parentheses=true
+tab_jump_out_parentheses=true
+auto_indent=true
+auto_save=false
+wrap_text=false
+beta=false
+replace_tabs=false
+save_tests=false
+maximized_window=false
+check_update=true
+auto_format=false
+opacity=81
+view_mode=split
+splitter_size=@ByteArray(\0\0\0\xff\0\0\0\x1\0\0\0\x2\0\0\x4\xb0\0\0\x2\xa1\x1\xff\xff\xff\xff\x1\0\0\0\x1\0)
+right_splitter_size=@ByteArray()
+force_close=false
+save_path=G:/
+show_compile_and_run_only=false
+display_eoln_in_diff=false
+save_faster=false
+time_limit=5000
+output_length_limit=500000
+message_length_limit=20000
+html_diff_viewer_length_limit=50000
+open_file_length_limit=20000
+load_test_case_file_length_limit=500000
+testcases_matching_rules=@Variant(\0\0\0\v\0\0\0\x2\0\0\0\x10\0(\0.\0*\0)\0\\\0.\0i\0n\0\0\0\f\0\\\0\x31\0.\0\x61\0n\0s), @Variant(\0\0\0\v\0\0\0\x2\0\0\0\x10\0(\0.\0*\0)\0\\\0.\0i\0n\0\0\0\f\0\\\0\x31\0.\0o\0u\0t)
+input_file_save_path=./${basename}_${1-index}.in
+answer_file_save_path=./${basename}_${1-index}.ans
+default_file_paths_for_problem_urls=@Invalid()
+test_cases_font=@Variant(\0\0\0@\0\0\0\x1a\0\x43\0\x61\0s\0\x63\0\x61\0\x64\0i\0\x61\0 \0\x43\0o\0\x64\0\x65@&\0\0\0\0\0\0\xff\xff\xff\xff\x5\x1\0\x32\x10)
+extra_bottom_margin=false
+message_logger_font=@Variant(\0\0\0@\0\0\0\x1a\0\x43\0\x61\0s\0\x63\0\x61\0\x64\0i\0\x61\0 \0\x43\0o\0\x64\0\x65@&\0\0\0\0\0\0\xff\xff\xff\xff\x5\x1\0\x32\x10)
+save_file_on_compilation=true
+save_file_on_execution=false
+restore_old_problem_url=false
+open_old_file_for_old_problem_url=false
+file_problem_binding=@Invalid()
+
+[clang_format]
+path=C:/Program Files (x86)/Dev-Cpp/AStyle/AStyle.exe
+style=BasedOnStyle: Google
+
+[cpp]
+template_path=
+template_cursor_position_regex=main\\(\\)
+template_cursor_position_offset_type=end
+template_cursor_position_offset_characters=4
+compile_command=g++ -Wall
+output_path=${tmpdir}/${basename}
+run_arguments=
+parentheses=@Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0(\0\0\0\x2\0\0\0)\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0{\0\0\0\x2\0\0\0}\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0[\0\0\0\x2\0\0\0]\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1)
+
+[java]
+template_path=
+compile_command=javac
+run_arguments=
+run_command=java
+class_name=a
+output_path=${tmpdir}
+template_cursor_position_regex=
+template_cursor_position_offset_type=end
+template_cursor_position_offset_characters=0
+parentheses=@Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0(\0\0\0\x2\0\0\0)\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0{\0\0\0\x2\0\0\0}\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0[\0\0\0\x2\0\0\0]\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1)
+
+[python]
+template_path=
+template_cursor_position_regex=
+template_cursor_position_offset_type=end
+template_cursor_position_offset_characters=0
+run_arguments=
+run_command=python
+parentheses=@Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0(\0\0\0\x2\0\0\0)\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0{\0\0\0\x2\0\0\0}\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0[\0\0\0\x2\0\0\0]\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\"\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1), @Variant(\0\0\0\t\0\0\0\x5\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0'\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1\0\0\0\x2\0\0\0\x1)
+
+[competitive_companion]
+enable=true
+connection_port=10045
+open_new_tab=true
+
+[hotkey]
+format=
+kill=
+compile_run=
+run=
+compile=
+change_view_mode=
+snippets=
+
+[hot_exit]
+enable=true
+tab_count=0
+current_index=-1
+
+[cf]
+path=cf
+
+[lsp]
+path_cpp=clangd
+path_java=
+path_python=python
+use_linting_cpp=false
+use_linting_java=false
+use_linting_python=false
+use_autocomplete_cpp=false
+use_autocomplete_java=false
+use_autocomplete_python=false
+delay_cpp=2000
+delay_java=2000
+delay_python=2000
+args_cpp=
+args_java=
+args_python=-m pyls
+
+[snippets]
+C%2B%2B\forg="for(int i = head[u];i;i=e[i].nxt)"
+C%2B%2B\graph="struct Edge{\n\tint to,nxt,w;\n\t\n}e[100010];\nint head[100010],cnt=0;\nvoid adde(int u,int v,int w){\n\te[++cnt].to = v;\n\te[cnt].nxt = head[u];\n\thead[u] = cnt;\n\te[cnt].w= w;\n}\n"
+C%2B%2B\main="#include <bits/stdc++.h>\nusing namespace std;\nint main(){\n\t\n\treturn 0;\n}"
+C%2B%2B\read="inline int read(){\n\tint x;\n    x=0;char ch=0;bool sign=false;\n    while(ch < '0' || ch > '9'){\n        sign|=(ch == '-');\n        ch=getchar();\n    }\n    while(!(ch < '0' || ch > '9')){\n        x=x*10+(ch^48);\n        ch=getchar();\n    }\n    x=sign ? -x : x;\n    return x;\n}\n\ninline void print(int x){\n    if(x<0)putchar('-'),x=-x;\n    if(x>9)print(x/10);\n    putchar(x%10+'0');\n}"
