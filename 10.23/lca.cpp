@@ -11,6 +11,7 @@ void adde(int u,int v){
     e[cnt].nxt = head[u];
     head[u] = cnt;
 }
+
 void dfs(int u,int fat){
     fa[u][0] = fat; dep[u] = dep[fat]+1;
     for(int i = head[u];i ; i = e[i].nxt){
