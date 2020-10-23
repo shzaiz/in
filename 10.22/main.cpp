@@ -28,11 +28,11 @@ int read()
 }
 int n, kk;
 int mod = 998244353;
-int k[3][100009];
-int a[100001];
+int k[3][1000009];
+int a[1000001];
 int cnt;
-int head[100001];
-int chu[100001];
+int head[1000001];
+int chu[1000001];
 struct bian {
     int to, next;
 } e[100001];
@@ -100,8 +100,9 @@ void work(int xv, int ans, int chi, int last)
         if (last != 0) {
             s[xv] = addd(k[2][chi],mul(k[1][chi],(kk - 1)));
             // s[xv] = k[2][chi] + k[1][chi] * (kk - 1);
-            s[xv] = s[xv] % mod;
-            s[xv] = s[xv] * ans % mod;
+            s[xv] = mul(s[xv],ans);
+            // s[xv] = s[xv] % mod;
+            // s[xv] = s[xv] * ans % mod;
             for (int i = head[xv]; i; i = e[i].next)
                 work(e[i].to, ans, chi, last);
             return;
