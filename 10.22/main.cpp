@@ -91,6 +91,9 @@ void work(int xv, int ans, int chi, int last)
     if (a[xv] == 0) {
         chi++;
         if (last == 0) {
+            if(chi==1){
+                s[xv] =kk;
+            }else
             s[xv] = mul(kk,addd(k[2][chi - 1],mul((kk - 1),k[1][chi - 1])));
             // s[xv] = kk * ((k[2][chi - 1] + (kk - 1) * k[1][chi - 1]) % mod) % mod;
             for (int i = head[xv]; i; i = e[i].next)
