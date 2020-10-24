@@ -4,6 +4,7 @@
 using namespace std;
 int n,k,m;
 const int MAXN = 2e5+50;
+#define stod fuckit
 int a[MAXN+10000];
 ll qpow(ll a,ll b,ll n){ll t,y;t=1; y=a;while (b!=0){if (b&1==1) t=t*y%n;y=y*y%n; b=b>>1;}return t;}
 const int MOD = 998244353;
@@ -149,8 +150,13 @@ void input(){
 	
 }
 int main(){
-	freopen("color.in","r",stdin);
-	freopen("color.out","w",stdout);
+	#ifndef ONLINE_JUDGE
+	freopen("D:/Testcases/in.ac","r",stdin);
+	freopen("D:/Testcases/out.ac","w",stdout);
+	#else
+	freopen("fuxk.in","r",stdin);
+	freopen("fuxk.out","w",stdout);
+	#endif
 	input();
 	if(m){
 		ALL();
