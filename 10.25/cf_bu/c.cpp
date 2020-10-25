@@ -30,13 +30,16 @@ signed main()
     int big = 0, small = 0;
     while (l < r) {
         int mid = (l + r) / 2;
-        if (pos >= mid) {
+        if (pos+1 >= mid) {
             big++;
             l = mid + 1;
+            if(mid==pos) big--;
         } else {
             small++;
             r = mid;
+            if(mid==pos) small--;
         }
+        
     }
     int ans = 1;
     ans = mul(ans, A(m-1, small));
