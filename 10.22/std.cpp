@@ -119,10 +119,8 @@ void dfs(int u, int fa) {
 int main() {
 #ifndef ONLINE_JUDGE
 freopen("D:/Testcases/in.ac","r",stdin);
-freopen("D:/Testcases/out2.ac","w",stdout);
+freopen("D:/Testcases/out.ac","w",stdout);
 #else
-freopen(".in","r",stdin);
-freopen(".out","w",stdout);
 #endif
 	cin >> n >> k;
 	for (int i = 1; i <= n; i++)
