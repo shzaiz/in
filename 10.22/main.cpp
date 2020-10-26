@@ -109,7 +109,7 @@ signed main( )
     work(1,1,0,0);
     for(int i=1;i<=n;i++)
     {
-       cout<<s[i]<<endl;
+        cout<<s[i]<<endl;
         s[i]=s[i]^s[i-1];
     }
     cout<<s[n];

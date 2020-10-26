@@ -1,11 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define N 100005
+#define N 500005
 #define MOD 998244353
 #define ll long long
 bool deb = 1;
 int f[2][N];
 int alp[N];
+int fst = 1;
 int s[N] = {}, tp = 0;
 ll pv = -1;
 ll bk = -1;
@@ -48,7 +49,7 @@ void adde(int u, int v) {
 }
 
 void dfs(int u, int fa) {
-	ll an2 = ans2, pvv = -1, bkk = bk, com = 0, an1 = ans1;
+	ll an2 = ans2, pvv = -1, bkk = bk, com = 0, an1 = ans1,fstt = fst;
 	s[++tp] = alp[u];
 	if (u == 1 && s[tp] == 0) {
 		ans2 = mul(ans2, k);
@@ -93,15 +94,22 @@ void dfs(int u, int fa) {
 			an2 = ans2;
 
 		} else {
-			// ans2 = qpow(k-1,tp-1);
-			// an2 = ans2;
-			if(deb) printf("pos[%d] :%d   ...(4)\n", u, ans1);
-			finalans ^= ans1;
+			if(fst){
+				ans1 = qpow(k-1,tp-1);
+				an1 = ans1;
+				if(deb) printf("pos[%d] :%d   ...(4)\n", u, ans1);
+				finalans ^= ans1;
+			}else{
+				if(deb) printf("pos[%d] :%d   ...(5)\n", u, ans1);
+				finalans ^= ans1;
+			}
 		}
 		pv = tp, bk = -1;
 		pvv = pv, bkk = bk;
 		combo = false;
 		com = combo;
+		fstt = fst = 0;
+		
 	}
 	for (int i = head[u]; i; i = e[i].nxt) {
 		int v = e[i].to;
@@ -113,6 +121,7 @@ void dfs(int u, int fa) {
 		ans1 = an1;
 		combo = com;
 		bk = bkk;
+		fst = fstt;
 		tp--;
 	}
 
