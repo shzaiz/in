@@ -93,6 +93,8 @@ void dfs(int u, int fa) {
 			an2 = ans2;
 
 		} else {
+			// ans2 = qpow(k-1,tp-1);
+			// an2 = ans2;
 			if(deb) printf("pos[%d] :%d   ...(4)\n", u, ans1);
 			finalans ^= ans1;
 		}

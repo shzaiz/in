@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-#define Maxn 100010
+#define Maxn 500010
 #define LL long long
 // int head[N],cnt =0;
 // int le[N],f[N];
