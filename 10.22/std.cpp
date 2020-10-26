@@ -3,8 +3,7 @@ using namespace std;
 #define N 500005
 #define MOD 998244353
 #define int long long
-int f[2][N], alp[N], fst = 1, s[N] = {}, tp = 0, pv = -1, bk = -1, ans1 = 1,
-                     ans2 = 1, combo = false, n, k;
+int f[2][N], alp[N], fst = 1, s[N] = {}, tp = 0, pv = -1, bk = -1, ans1 = 1,ans2 = 1, combo = false, n, k;
 int head[N], cnt = 0;
 int finalans = 0;
 int add(int a, int b) { return ((a % MOD) + (b % MOD)) % MOD; }
