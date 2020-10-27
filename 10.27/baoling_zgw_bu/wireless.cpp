@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define D double
-#define N 324750
+#define N 9080040
 int fa[N];
 int S, P;
 int cnt = 0;
@@ -67,7 +67,7 @@ int main()
             unite(u, v);
             ans = e[i].w;
             chose++;
-            if (chose == S)
+            if (chose == P-S)
                 break;
         }
     }

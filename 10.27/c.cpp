@@ -2,7 +2,9 @@
 using namespace std;
 #define tm fuckccf
 #define clock nmsl
-#define N 100010
+#define N 500010
+int indeg[N];
+int indegg[N];
 int n, k1, k2;
 struct Edge {
     int to, nxt;
@@ -10,21 +12,24 @@ struct Edge {
 int head[N], cnt = 0;
 void adde(int u, int v)
 {
+    indeg[v]++;indegg[v]++;
     e[++cnt].to = v;
     e[cnt].nxt = head[u];
     head[u] = cnt;
 }
 int clock = 0;
 int vis[N], tm[N];
-void dfs(int u)
+queue<int > Q;
+void topo(int u)
 {
+    Q.push(u);
     vis[u] = 1;
     tm[u] = ++clock;
-    for (int i = head[u]; i; i = e[i].nxt) {
-        int v = e[i].to;
-        if (vis[v])
-            continue;
-        dfs(v);
+    while(!Q.empty()){
+        // int v = e[i]
+        // for(int i = head[u];i;i = e[i].nxt){
+
+        }
     }
 }
 int main()
@@ -43,8 +48,7 @@ int main()
         adde(a, b);
     }
     for (int i = 1; i <= n; i++) {
-        if (!vis[i])
-            dfs(i);
+        if(indeg[i] == 0) {topo(i);}
     }
     for (int i = 1; i <= k2; i++) {
         int a, b;

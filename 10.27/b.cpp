@@ -1,84 +1,70 @@
-#include <bits/stdc++.h>
+#include<iostream>
+#include<cstdio>
+#include<cstring>
 using namespace std;
-#define tm fuckccf
-#define N 100010
-struct Edge {
-    int to, nxt, w;
-} e[N];
-int head[N];
-int cnt = 0;
-int dis[N], vis[N], tm[N];
-void adde(int u, int v, int w)
-{
-    // printf("Added %d --[%d]--> %d\n ", u, w, v);
-    e[++cnt].to = v;
-    e[cnt].nxt = head[u];
-    e[cnt].w = w;
-    head[u] = cnt;
+#define maxn 100010
+int n,m,dis[maxn],num,head[maxn*2],step[maxn];
+bool vis[maxn],flag;
+int qread(){
+    int i=0,j=1;
+    char ch=getchar();
+    while(ch<'0'||ch>'9'){if(ch=='-')j=-1;ch=getchar();}
+    while(ch<='9'&&ch>='0'){i=i*10+ch-'0';ch=getchar();}
+    return i*j;
 }
-int n, m;
-queue<int> Q;
-
-bool spfa(int s)
-{
-    memset(dis, 1e9 + 7, sizeof dis);
-    dis[s] = 0;
-    vis[s] = 1;
-    Q.push(s);
-    while (!Q.empty()) {
-        int u = Q.front();
-        vis[u] = 0;
-        Q.pop();
-        for (int i = head[u]; i; i = e[i].nxt) {
-            int v = e[i].to;
-            if (!vis[v] && dis[u] + e[i].w < dis[v]) {
-                dis[v] = dis[u] + e[i].w;
-                Q.push(v);
-                tm[v]++;
-                vis[v] = 1;
-                if (tm[v] >= n)
-                    return 1;
-            }
+struct node{
+    int to,pre,v;
+}e[maxn*2];
+void Insert(int from,int to,int v){
+    e[++num].to=to;
+    e[num].v=v;
+    e[num].pre=head[from];
+    head[from]=num;
+} 
+void spfa(int x){
+    if(flag)return;
+    vis[x]=1;
+    for(int i=head[x];i;i=e[i].pre){
+        int to=e[i].to;
+        if(dis[to]>dis[x]+e[i].v){
+            dis[to]=dis[x]+e[i].v;
+            if(vis[to]){flag=1;return;}
+            spfa(to);
         }
     }
-    return 0;
-}
-
-int main()
-{
-#ifdef FUCKCCF
-    freopen("D:/Testcases/in.ac", "r", stdin);
-    freopen("D:/Testcases/out.ac", "w", stdout);
-#else
-    freopen("farm.in", "r", stdin);
-    freopen("farm.out", "w", stdout);
-#endif
-    cin >> n >> m;
-    int op;
-
-    for (int i = 1; i <= m; i++) {
-        cin >> op;
-        if (op == 3) {
-            int a, b;
-            cin >> a >> b;
-            adde(a, b, 0);
-            adde(b, a, 0);
-        } else if (op == 1) {
-            int a, b, c;
-            cin >> a >> b >> c;
-            adde(a, b, -c);
-        } else if (op == 2) {
-            int a, b, c;
-            cin >> a >> b >> c;
-            adde(a, b, c);
-        } else {
-            printf("Your fucking idiot data must made wrong!!!");
+    vis[x]=0;
+} 
+int main(){
+    // #ifdef FUCKCCF
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    // #else
+    // freopen("akioi.in","r",stdin);
+    // freopen("akioi.out","w",stdout);
+    // #endif
+    n=qread();m=qread();
+    int op,x,y,z;
+    for(int i=1;i<=m;i++){
+        op=qread();
+        if(op==1){
+            x=qread();y=qread();z=qread();
+            Insert(x,y,-z);
+        }
+        if(op==2){
+            x=qread();y=qread();z=qread();
+            Insert(y,x,z);
+        }
+        if(op==3){
+            x=qread();y=qread();
+            Insert(x,y,0);
+            Insert(y,x,0);
         }
     }
-    if (!spfa(1)) {
-        printf("Yes\n");
-    } else {
-        printf("No\n");
-    }
+    for(int i=1;i<=n;i++)Insert(0,i,0);
+    memset(dis,127/3,sizeof(dis));
+    dis[0]=0;
+    spfa(0);
+    if(flag)printf("No");//存在负环 
+    else printf("Yes");
     return 0;
-}
+}        
