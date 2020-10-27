@@ -24,7 +24,7 @@ void dfs(int u){
     }
 }
 int main(){
-    #ifndef ONLINE_JUDGE
+    #ifdef FUCKCCF
     freopen("D:/Testcases/in.ac","r",stdin);
     freopen("D:/Testcases/out.ac","w",stdout);
     #else
