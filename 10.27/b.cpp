@@ -35,7 +35,7 @@ bool spfa(int s)
                 dis[v] = dis[u] + e[i].w;
                 Q.push(v);
                 tm[v]++;
-                vis[v] =1;
+                vis[v] = 1;
                 if (tm[v] >= n)
                     return 1;
             }
@@ -47,15 +47,15 @@ bool spfa(int s)
 int main()
 {
 #ifdef FUCKCCF
-freopen("D:/Testcases/in.ac","r",stdin);
-freopen("D:/Testcases/out.ac","w",stdout);
+    freopen("D:/Testcases/in.ac", "r", stdin);
+    freopen("D:/Testcases/out.ac", "w", stdout);
 #else
-freopen("farm.in","r",stdin);
-freopen("farm.out","w",stdout);
+    freopen("farm.in", "r", stdin);
+    freopen("farm.out", "w", stdout);
 #endif
     cin >> n >> m;
     int op;
-    
+
     for (int i = 1; i <= m; i++) {
         cin >> op;
         if (op == 3) {
