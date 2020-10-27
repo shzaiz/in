@@ -31,12 +31,14 @@ bool spfa(int s)
         Q.pop();
         for (int i = head[u]; i; i = e[i].nxt) {
             int v = e[i].to;
-            if (!vis[v] && dis[u] + e[i].w < dis[v]) {
+            if (dis[u] + e[i].w < dis[v]) {
                 dis[v] = dis[u] + e[i].w;
-                Q.push(v);
                 tm[v]++;
-                vis[v] = 1;
-                if (tm[v] >n)
+                if (!vis[v]) {
+                    vis[v] = 1;
+                    Q.push(v);
+                }
+                if (tm[v] >= n)
                     return 1;
             }
         }
@@ -50,7 +52,7 @@ int main()
     freopen("D:/Testcases/in.ac", "r", stdin);
     freopen("D:/Testcases/out.ac", "w", stdout);
 #else
-    freopen("farm.in", "r", stdin);
+        freopen("farm.in", "r", stdin);
     freopen("farm.out", "w", stdout);
 #endif
     cin >> n >> m;
@@ -75,8 +77,9 @@ int main()
             printf("Data Error\n");
         }
     }
-    for(int i=1;i<=n;i++)adde(n+1,i,0);
-    if (!spfa(n+1)) {
+    for (int i = 1; i <= n; i++)
+        adde(n + 1, i, 0);
+    if (!spfa(n + 1)) {
         printf("Yes\n");
     } else {
         printf("No\n");
