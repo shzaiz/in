@@ -4,19 +4,19 @@
 
 到底该怎么写才可以正确的写出DP方程式?  
 
-## 方法1. 列出转移的方程式
+## 方法1. 状态设计比较简单, 转移复杂的问题
 
 我们知道, DP只是搜索+记忆化. 那么考虑在搜索时搞上记忆化, 是不是就行了?
 
-> CF1433F.Zero Remainder Sum ( $k \to u$ )
+> CF1433F.Zero Remainder Sum (  )
 
-- 设计状态$f[i][j][k][l]$. 当前在第i行第j个. 选了$k$个,余数是$l$.
+- 设计状态. 当前在第i行第j个. 选了个,余数是.
 - 转移
-  - 对于每一个数: 如果选择, 那么就是$f[i][j][k+1][l+a_{i,j}\bmod u]=\max f[i][x][k][l]+a_{i,j},x\in{[0,j]}$.
-  - 如果不做出选择, 那么$f[i][j][k][l] = \max f[i][x][k][l] ,x\in[0,j]$.
-  - 就需要 $f[i+1][0][0][0] = \max f[i][x][y][z], x\in[0,m],y\in[0,\frac{m}{2}],z\in[0,k-1]$.
+  - 对于每一个数: 如果选择, 那么就是.
+  - 如果不做出选择, 那么.
+  - 就需要 .
 
-```c++
+```
 // assuming n*m
 for i = 1 to n
     for j = 1 to m
@@ -31,7 +31,7 @@ for i = 1 to n
 
 然后你兴致勃勃的写了代码, 结果会发生这样的事情:
 
-```cpp
+```
 #include <bits/stdc++.h>
 using namespace std;
 #define N 75
@@ -64,24 +64,40 @@ int main(){
 
 再稍微改一改:
 
-```cpp
+```
+int main(){
+    #ifdef FUCKCCF
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    #endif
     int n,m,u;cin>>n>>m>>u; 
     fo(i,n) fo(j,m) cin>>a[i][j];
     fo(i,n+1) fo(j,n) fo0(k,n) fo0(l,n) f[i][j][k][l] = -998244353;
-    f[1][1][0][0] = 0; 
-    f[1][2][0][0] = 0;
+    f[1][1][0][0] = 0;
     fo(i,n)fo(j,m)fo0(k,(m/2))fo0(l,u-1){
-        // if(f[i][j][k][l] == -998244353) continue;
         fo(x,j){
-            f[i][j][k][l] = max(f[i][j][k][l],f[i][x][k][l]);
+            // 这一个版本的问题错就错在:前面的可能重复选取.
             if(k<=(m/2)){
-                if(k==0)fo(df,u-1) f[i][j][0][df] = 0;
-                f[i][j][k][(l+a[i][x])%u] = max(f[i][j][k][(l+a[i][x])%u],f[i][x][k-1][l]+a[i][x]); 
+                mmax(f[i][j][k][l], f[i][x][k-1][(l-a[i][x]+500*u)%u]+a[i][x]);
             }
+            mmax(f[i][j][k][l],f[i][x][k][l]);
         }
-        f[i+1][1][0][l] = max(f[i][j][k][l],f[i+1][1][0][l]);
-        printf("f[%d][%d][%d][%d] = %d.\n",i,j,k,l,f[i][j][k][l]);
+        mmax(f[i+1][1][0][l],f[i][j][k][l]);
     }
     printf("%d\n",f[n+1][1][0][0]);
+}
+
 ```
 
+考虑直接用搜索去模拟:
+
+```
+int solve(int i,int j,int mod,int taken) {
+    if(dp[i][j][mod][taken]!=-1)return dp[i][j][mod][taken];
+    if(i==n)
+        return mod?-999999:0;
+    if(j==m || taken==m/2)
+        return solve(i+1,0,mod,0);
+    return dp[i][j][mod][taken]=max(solve(i,j+1,mod,taken),a[i][j]+solve(i,j+1,(mod+a[i][j])%k,taken+1));
+}
+```
