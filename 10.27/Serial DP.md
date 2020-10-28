@@ -1,3 +1,5 @@
+Hi. 我是一个什么DP都不会的蒟蒻. 
+
 # Serial DP
 
 ## Problem 1. [Zero Remainder Sum](https://codeforces.com/problemset/problem/1433/F)
@@ -243,4 +245,158 @@ int main(){
 ```
 
 ## Problem 4.[Golden Sword](https://www.luogu.com.cn/problem/P5858)
+
+- Q1. 拿出来东西怎么处理? A: 拿出来可以想做替换的过程.
+- 经过手%样例我们可以发现应该如何设计状态: $f[i][j]$表示当前有了$i$个物品, 放入的物品编号为$j$的情况.
+- 状态转移 : $f[i][j] = \max(f[i-u][j-1]),u\in[0,s]$.
+- 代码实现.
+
+## Problem5. [绝世好题](https://www.luogu.com.cn/problem/P4310)
+
+- 首先想法: f[i]表示从0到i的&值不等于0的数
+
+- 状态转移: $f[i] = f[u]+1 (i \and u \neq 0)$.
+
+- 代码实现:
+
+  ```cpp
+  #include <bits/stdc++.h>
+  using namespace std;
+  #define N 100005
+  int n,f[N],a[N];
+  int main(){
+      #ifdef FUCKCCF
+      freopen("D:/Testcases/in.ac","r",stdin);
+      freopen("D:/Testcases/out.ac","w",stdout);
+      #endif
+      cin>>n;
+      for(int i = 1;i<=n;i++){
+          cin>>a[i];
+      }
+      f[1] =1;
+      for(int i = 2;i<=n;i++){
+          for(int j = 1;j<i;j++){
+              if(a[j] & a[i]){
+                  f[i] = max(f[i],f[j]+1);
+              }
+          }
+      }
+      int ans = 0;
+      for(int i = 1;i<=n;i++) ans = max(ans,f[i]);
+      printf("%d\n",ans);
+  }
+  ```
+
+- 考虑优化
+
+## Problem6. [最长括号匹配](https://www.luogu.com.cn/problem/P1944)
+
+- 感觉这不是一个DP试题. 
+- 直接把所有的括号压入一个stack里面. 然后进行~~乱搞~~就行.
+
+```cpp
+#include <bits/stdc++.h>
+#define siz 1000100
+using namespace std;
+int la, top, cnt, l, ansl, ansr, ans;
+int sta[siz][2];
+char a[siz];
+bool vis[siz];
+int main()
+{
+
+    scanf("%s", a);
+    la = strlen(a);
+    for (int i = 0; i < la; ++i)
+        if ((sta[top][0] == '[' && a[i] == ']') || (sta[top][0] == '(' && a[i] == ')'))
+            vis[sta[top--][1]] = vis[i] = 1;
+        else
+            sta[++top][0] = a[i], sta[top][1] = i;
+    for (int i = 0; i < la; ++i)
+        if (!vis[i])
+            cnt = 0, l = i + 1;
+        else {
+            cnt++;
+            if (cnt > ans)
+                ansl = l, ansr = i, ans = cnt;
+        }
+    for (int i = ansl; i <= ansr; ++i)
+        putchar(a[i]);
+    return 0;
+}
+```
+
+## Problem 7. [ZJOI2006物流运输](https://www.luogu.com.cn/problem/P1772)
+
+- 先咕着
+
+# Backpack x Dynamic Programming
+
+## Problem 8. [01背包问题](https://www.acwing.com/problem/content/2/)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define N 1000010
+int v[N];
+int w[N];
+int f[N];
+int main(){
+    #ifdef FUCKCCF
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    #endif
+    int n,m;cin>>n>>m;
+    for(int i = 1;i<=n;i++){
+        cin>>v[i]>>w[i];
+    }
+    for(int i = 1;i<=n;i++){
+        for(int j = m;j>=v[i];j--){
+            f[j] = max(f[j],f[j-v[i]]+w[i]);
+        }
+    }
+    printf("%d",f[m]);
+}
+```
+
+## Problem 9. [多重背包问题 I,II,III,IV](https://www.acwing.com/problem/content/4/)
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+int f[20002],q[20002],g[20002];
+int main()
+{
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        int v,w,s;
+        cin>>v>>w>>s;
+        memcpy(g,f,sizeof(f));
+        for(int j=0;j<v;j++){
+            int hh=0,tt=-1;
+            for(int k=j;k<=m;k+=v){
+                f[k]=g[k];
+                if(hh<=tt && k-s*v>q[hh]){
+                    hh++;
+                }
+                if(hh<=tt){
+                    f[k]=max(f[k],g[q[hh]]+(k-q[hh])/v*w); 
+                }
+                while(hh<=tt && g[q[tt]]-(q[tt]-j)/v*w <= g[k]-(k-j)/v*w){
+                    tt--;
+                }
+                q[++tt]=k;
+            }
+        }
+    }
+    cout<<f[m]<<endl;
+}
+
+```
+
+
+
+
 
