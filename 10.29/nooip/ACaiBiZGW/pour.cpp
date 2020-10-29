@@ -27,6 +27,6 @@ signed main() {
     int gcd=exgcd(a,b);
     b/=gcd,x%=b;
     if(x>0) x-=b;x=-x;
-    printf("%lld\n%d %lld",gcd,x,(x*a+gcd)/(b*gcd));
+    printf("%lld\n%lld %lld",gcd,x,(x*a+gcd)/(b*gcd));
     return 0;
 }

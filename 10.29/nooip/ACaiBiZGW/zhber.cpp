@@ -9,4 +9,5 @@ int main(){
     freopen("zhber.out","w",stdout);
     #endif
     printf("NO\n");
+    return 0; 
 }
