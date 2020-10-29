@@ -15,6 +15,13 @@ int exgcd(int a,int b) {
 }
 
 signed main() {
+    #ifdef FUCKCCF
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    #else
+    freopen("pour.in","r",stdin);
+    freopen("pour.out","w",stdout);
+    #endif
     int a,b;
     scanf("%lld%lld",&a,&b);
     int gcd=exgcd(a,b);
