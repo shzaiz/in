@@ -8,15 +8,18 @@ using namespace std;
 #define fo(i,x) for(int i = 1;i<=(x);++i)
 #define int long long
 int a[N];
-int l[N],r[N],lz[N],sum[N];
+int l[N],r[N],lz[N],lz2[N],sum[N];
 void pushup(int o){sum[o] = sum[ls(o)]+sum[rs(o)];}
 void pushdn(int o,int ln,int rn){
-    if(lz[o]){
-        sum[ls(o)] += (lz[o]*ln);
-        sum[rs(o)] += (lz[o]*rn);
-        lz[ls(o)] += lz[o];
-        lz[rs(o)] += lz[o];
+    if(lz[o] || lz2[o]!=1){
+        sum[ls(o)] = sum[ls(o)]*lz2[o] + lz[o]*ln;
+        sum[rs(o)] = sum[rs(o)]*lz2[o] + lz[o]*rn;
+        lz2[ls(o)] *= lz2[o];
+        lz2[rs(o)] *= lz2[o];
+        lz[ls(o)]  = lz[ls(o)]*lz2[o]+lz[o];
+        lz[rs(o)]  = lz[rs(o)]*lz2[o]+lz[o];
         lz[o] = 0;
+        lz2[o] = 1;
     }
 }
 void build(int o,int ll,int rr){
@@ -43,6 +46,7 @@ int query(int o,int ll,int rr,int L,int R){
     return ans;
 }
 signed main(){
+    memset(lz2,1,sizeof lz2);
     #ifdef FUCKCCF
     freopen("D:/Testcases/in.ac","r",stdin);
     freopen("D:/Testcases/out.ac","w",stdout);
