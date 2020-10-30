@@ -415,11 +415,126 @@ signed main()
 }
 ```
 
+## Problem 8. [守卫者的挑战](https://blog.csdn.net/liaojiqing/article/details/14390359)
 
+> 题目描述:
+>
+> 打开了黑魔法师Vani的大门，队员们在迷宫般的路上漫无目的地搜寻着关押applepi的监狱的所在地。 
+> 突然，眼前一道亮光闪过。“我，Nizem，是黑魔法圣殿的守卫者。如果你能通过我的挑战，那么你可以带 
+> 走黑魔法圣殿的地图……”瞬间，队员们被传送到了一个擂台上，==最初身边有一个容量为K的包包==。 
+> 　　擂台赛一共有N项挑战，各项挑战 ==依次==进行。第i项挑战有一个属性ai，如果ai>=0，表示这次挑战成功 
+> 后可以再获得一个 ==容量为ai的包包==；如果ai=-1，则表示这次挑战成功后可以得到一个 ==大小为1 的地图残片==。 
+> 地图残片必须装在包包里才能带出擂台，包包没有必要全部装满，但是队员们必须把 【获得的所有的】 
+> 地图残片都带走（没有得到的不用考虑，只需要完成所有N项挑战后背包容量足够容纳地图残片即可）， 
+> 才能拼出完整的地图。并且他们至少要挑战成功L次才能离开擂台。 
+> 　　队员们一筹莫展之时，善良的守卫者Nizem帮忙预估出了每项挑战成功的概率，其中 ==第i项挑战成功的 
+> 概率为pi%==。现在，请你帮忙预测一下，队员们能够带上他们获得的地图残片离开擂台的概率。 
+>
+> ***\*Input\****
+>
+> 　　第一行三个整数N,L,K。 
+> 　　第二行N个实数，第i个实数pi表示第i项挑战成功的百分比。 
+> 　　第三行N个整数，第i个整数ai表示第i项挑战的属性值. 
+>
+> ***\*Output\****
+>
+> 　　一个整数，表示所求概率，四舍五入保留6 位小数。 
+>
+> ***\*Sample Input\****
+>
+> ```
+> Sample Input
+> 样例输入1
+> 3 1 0
+> 10 20 30
+> -1 -1 2
+> 样例输入2
+> 5 1 2
+> 36 44 13 83 63
+> -1 2 -1 2 1
+> ```
+>
+> Sample Output
+>
+> ```
+> Sample Output
+> 样例输出1
+> 0.300000
+> 样例输出2
+> 0.980387
+> HINT
+> 　　对于 100% 的数据，保证0<=K<=2000，0<=N<=200，-1<=ai<=1000，0<=L<=N，0<=pi<=100。
+> ```
+
+- 首先考虑一些变量:
+
+  - 背包的容积.
+  - 挑战胜利的次数.
+  - 获得的地图碎片个数
+  - 当前背包的容积.
+
+- 考虑决策点: 当前决策 = p×下一个挑战成功的状态 + (1-p)×下一个挑战失败的状态.
+
+- 考虑设计状态$f[i][j][k]$表示当前考虑了前$i$个物品,  获得了$j$次胜利, 背包容量为$k$. 注意: 这里的容量可正可负. $+k$的话表示背包还空着$k$, $-k$的话表示之后的过程中还需要容量为$k$的背包.
+
+- 状态转移:
+  $$
+  f[i][j][k] = pf[i+1][j+1][k+W]+(1-p)f[i+1][j][k].
+  $$
+  其中$W$表示
+  $$
+  W=\begin{cases} &a_i&(a_i\neq-1) \\&-1 &(\text{else})\end{cases}
+  $$
+
+  ```cpp
+  
+  #include <bits/stdc++.h>
+  #define N 215
+  using namespace std;
+  #define fo(i,x) for(int i = 1;i<=(x);i++)
+  #define fo0(i,x) for(int i = 0;i<=(x);i++)
+  #define fo2(i,x) for(int i = 2;i<=(x);i++)
+  int n,l,k,a[N];
+  //i场时，胜利数为k，容积数为j
+  double p[N],f[N][N*2][N],ans;
+  int main(){
+      #ifdef FUCKCCF
+      freopen("D:/Testcases/in.ac","r",stdin);
+      freopen("D:/Testcases/out.ac","w",stdout);
+      #else
+      freopen("guard.in","r",stdin);
+      freopen("guard.out","w",stdout);
+      #endif
+  	cin>>n>>l>>k;
+  	fo(i,n) {cin>>p[i];p[i]=p[i]/100;}
+  	fo(i,n) cin>>a[i];
+  	f[0][n][0]=1;
+  	fo(i,n)
+  		fo0(k,3*n){
+  			f[i][k][0]+=f[i-1][k][0]*(1-p[i]);
+  			for(int j=1;j<=i;j++){
+  				f[i][min(k+a[i],2*n)][j]+=f[i-1][k][j-1]*(p[i]);
+  				f[i][k][j]+=f[i-1][k][j]*((1-p[i]));
+  			}
+  		}
+   
+  	for(int i=n-k;i<=3*n;i++)
+  		for(int j=l;j<=n;j++){
+  			ans+=f[n][i][j];
+  		}
+  	cout<<fixed<<setprecision(6)<<ans<<endl;
+      return 0;
+  }
+  
+  ```
+
+  
+
+  
 
 # Backpack x Dynamic Programming
 
-## Problem 8. [01背包问题](https://www.acwing.com/problem/content/2/)
+## Problem 1. [01背包问题](https://www.acwing.com/problem/content/2/)
 
 ```cpp
 #include <bits/stdc++.h>
@@ -446,7 +561,7 @@ int main(){
 }
 ```
 
-## Problem 9. [多重背包问题 I,II,III,IV](https://www.acwing.com/problem/content/4/)
+## Problem 2. [多重背包问题 I,II,III,IV](https://www.acwing.com/problem/content/4/)
 
 ```cpp
 #include<bits/stdc++.h>
@@ -483,9 +598,46 @@ int main()
 
 ```
 
-## Problem10. [粉刷匠](https://www.luogu.com.cn/problem/P4158)
+## Problem3. [粉刷匠](https://www.luogu.com.cn/problem/P4158)
 
-- 状态的设计: 考虑当前粉刷到第$m$条板子, 
+*由于没有读题导致的错误. 错误原因:求的是有多少个正确的,而不是多少次*
 
+- 状态的设计: 考虑当前粉刷到$f[i][j]$表示坐标为$(i,j)$的木板. 最少容纳的错误数量. 默认从上到下, 从左往右粉刷.
+- 考虑第2维度, 也就是$f[1][i]$. 考虑$f[1][i] =\min(f[1][u]+same(u,i)),u\in[1,i)$ .
+- 考虑行行之间的转移: $f[i+1][1] = \max f[i][x]$. 接下来行行转移即可.
 
+------------------
+
+- $dp[i][j][k][0/1/2]$表示第i行第j列一共粉刷了k次，0/1/2分别表示当前格子没有涂色/涂了错的颜色/涂了对的颜色，涂色正确的个数. 然后我们考虑逐格转移：
+
+  ```cpp
+  当j=1也就是出于每行的第一个位置时，我们要考虑上一行的最后一个位置， 即
+  
+  dp[i][j][k][0]=max(dp[i-1][m][k][1],max(dp[i-1][m][k][2],dp[i-1][m][k][0]));
+  
+  dp[i][j][k][1]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]));
+  
+  dp[i][j][k][2]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]))+1;
+  其余位置要考虑这个格子颜色是否和前一个格子的颜色相等，如果相等，就有
+  
+  dp[i][j][k][2]=dp[i][j-1][k][2]+1;
+  可以直接接上
+  
+  dp[i][j][k][1]=max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]);
+  前面涂错或不涂
+  
+  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][1]);
+  前面涂错或不涂 如果不相等,
+  
+  dp[i][j][k][2]=max(dp[i][j-1][k-1][2],max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]))+1;
+  前面可能有三种情况
+  
+  dp[i][j][k][1]=max(dp[i][j-1][k][2],dp[i][j-1][k-1][0]);
+  涂对或不涂       
+  
+  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][2]);
+  涂对或不涂
+  ```
+
+  
 

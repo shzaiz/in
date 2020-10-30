@@ -6,7 +6,7 @@ using namespace std;
 #define fo0(i,x) for(int i = 0;i<=(x);i++)
 #define fo2(i,x) for(int i = 2;i<=(x);i++)
 int n,l,k,a[N];
-//i场时，胜利数为k，碎片数为j
+//i场时，胜利数为k，容积数为j
 double p[N],f[N][N*2][N],ans;
 int main(){
     #ifdef FUCKCCF
@@ -20,7 +20,6 @@ int main(){
 	fo(i,n) {cin>>p[i];p[i]=p[i]/100;}
 	fo(i,n) cin>>a[i];
 	f[0][n][0]=1;
-    //f[i][j][k] = i场时，胜利数为k，碎片数为j
 	fo(i,n)
 		fo0(k,3*n){
 			f[i][k][0]+=f[i-1][k][0]*(1-p[i]);
