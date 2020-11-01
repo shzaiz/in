@@ -528,7 +528,120 @@ signed main()
   
   ```
 
-## Problem 9.挑战
+
+
+
+
+
+
+# Backpack x Dynamic Programming
+
+## Problem 9. [01背包问题](https://www.acwing.com/problem/content/2/)
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+#define N 1000010
+int v[N];
+int w[N];
+int f[N];
+int main(){
+    #ifdef FUCKCCF
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    #endif
+    int n,m;cin>>n>>m;
+    for(int i = 1;i<=n;i++){
+        cin>>v[i]>>w[i];
+    }
+    for(int i = 1;i<=n;i++){
+        for(int j = m;j>=v[i];j--){
+            f[j] = max(f[j],f[j-v[i]]+w[i]);
+        }
+    }
+    printf("%d",f[m]);
+}
+```
+
+## Problem 10. [多重背包问题 I,II,III,IV](https://www.acwing.com/problem/content/4/)
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+int n,m;
+int f[20002],q[20002],g[20002];
+int main()
+{
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        int v,w,s;
+        cin>>v>>w>>s;
+        memcpy(g,f,sizeof(f));
+        for(int j=0;j<v;j++){
+            int hh=0,tt=-1;
+            for(int k=j;k<=m;k+=v){
+                f[k]=g[k];
+                if(hh<=tt && k-s*v>q[hh]){
+                    hh++;
+                }
+                if(hh<=tt){
+                    f[k]=max(f[k],g[q[hh]]+(k-q[hh])/v*w); 
+                }
+                while(hh<=tt && g[q[tt]]-(q[tt]-j)/v*w <= g[k]-(k-j)/v*w){
+                    tt--;
+                }
+                q[++tt]=k;
+            }
+        }
+    }
+    cout<<f[m]<<endl;
+}
+
+```
+
+## Problem 11. [粉刷匠](https://www.luogu.com.cn/problem/P4158)
+
+*由于没有读题导致的错误. 错误原因:求的是有多少个正确的,而不是多少次*
+
+- 状态的设计: 考虑当前粉刷到$f[i][j]$表示坐标为$(i,j)$的木板. 最少容纳的错误数量. 默认从上到下, 从左往右粉刷.
+- 考虑第2维度, 也就是$f[1][i]$. 考虑$f[1][i] =\min(f[1][u]+same(u,i)),u\in[1,i)$ .
+- 考虑行行之间的转移: $f[i+1][1] = \max f[i][x]$. 接下来行行转移即可.
+
+------------------
+
+- $dp[i][j][k][0/1/2]$表示第i行第j列一共粉刷了k次，0/1/2分别表示当前格子没有涂色/涂了错的颜色/涂了对的颜色，涂色正确的个数. 然后我们考虑逐格转移：
+
+  ```cpp
+  当j=1也就是出于每行的第一个位置时，我们要考虑上一行的最后一个位置， 即
+  
+  dp[i][j][k][0]=max(dp[i-1][m][k][1],max(dp[i-1][m][k][2],dp[i-1][m][k][0]));
+  
+  dp[i][j][k][1]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]));
+  
+  dp[i][j][k][2]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]))+1;
+  其余位置要考虑这个格子颜色是否和前一个格子的颜色相等，如果相等，就有
+  
+  dp[i][j][k][2]=dp[i][j-1][k][2]+1;
+  可以直接接上
+  
+  dp[i][j][k][1]=max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]);
+  前面涂错或不涂
+  
+  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][1]);
+  前面涂错或不涂 如果不相等,
+  
+  dp[i][j][k][2]=max(dp[i][j-1][k-1][2],max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]))+1;
+  前面可能有三种情况
+  
+  dp[i][j][k][1]=max(dp[i][j-1][k][2],dp[i][j-1][k-1][0]);
+  涂对或不涂       
+  
+  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][2]);
+  涂对或不涂
+  ```
+
+## Problem 12.挑战
 
 > **时间限制：** 1.0 秒
 >
@@ -594,114 +707,11 @@ signed main()
 >
 > 对于所有数据，0≤Ci<Di≤5000,1≤Di,H≤5000
 
+首先排序然后进行0-1背包.
 
 
-# Backpack x Dynamic Programming
 
-## Problem 1. [01背包问题](https://www.acwing.com/problem/content/2/)
+# Interval DP
 
-```cpp
-#include <bits/stdc++.h>
-using namespace std;
-#define N 1000010
-int v[N];
-int w[N];
-int f[N];
-int main(){
-    #ifdef FUCKCCF
-    freopen("D:/Testcases/in.ac","r",stdin);
-    freopen("D:/Testcases/out.ac","w",stdout);
-    #endif
-    int n,m;cin>>n>>m;
-    for(int i = 1;i<=n;i++){
-        cin>>v[i]>>w[i];
-    }
-    for(int i = 1;i<=n;i++){
-        for(int j = m;j>=v[i];j--){
-            f[j] = max(f[j],f[j-v[i]]+w[i]);
-        }
-    }
-    printf("%d",f[m]);
-}
-```
-
-## Problem 2. [多重背包问题 I,II,III,IV](https://www.acwing.com/problem/content/4/)
-
-```cpp
-#include<bits/stdc++.h>
-using namespace std;
-int n,m;
-int f[20002],q[20002],g[20002];
-int main()
-{
-    cin>>n>>m;
-    for(int i=1;i<=n;i++)
-    {
-        int v,w,s;
-        cin>>v>>w>>s;
-        memcpy(g,f,sizeof(f));
-        for(int j=0;j<v;j++){
-            int hh=0,tt=-1;
-            for(int k=j;k<=m;k+=v){
-                f[k]=g[k];
-                if(hh<=tt && k-s*v>q[hh]){
-                    hh++;
-                }
-                if(hh<=tt){
-                    f[k]=max(f[k],g[q[hh]]+(k-q[hh])/v*w); 
-                }
-                while(hh<=tt && g[q[tt]]-(q[tt]-j)/v*w <= g[k]-(k-j)/v*w){
-                    tt--;
-                }
-                q[++tt]=k;
-            }
-        }
-    }
-    cout<<f[m]<<endl;
-}
-
-```
-
-## Problem3. [粉刷匠](https://www.luogu.com.cn/problem/P4158)
-
-*由于没有读题导致的错误. 错误原因:求的是有多少个正确的,而不是多少次*
-
-- 状态的设计: 考虑当前粉刷到$f[i][j]$表示坐标为$(i,j)$的木板. 最少容纳的错误数量. 默认从上到下, 从左往右粉刷.
-- 考虑第2维度, 也就是$f[1][i]$. 考虑$f[1][i] =\min(f[1][u]+same(u,i)),u\in[1,i)$ .
-- 考虑行行之间的转移: $f[i+1][1] = \max f[i][x]$. 接下来行行转移即可.
-
-------------------
-
-- $dp[i][j][k][0/1/2]$表示第i行第j列一共粉刷了k次，0/1/2分别表示当前格子没有涂色/涂了错的颜色/涂了对的颜色，涂色正确的个数. 然后我们考虑逐格转移：
-
-  ```cpp
-  当j=1也就是出于每行的第一个位置时，我们要考虑上一行的最后一个位置， 即
-  
-  dp[i][j][k][0]=max(dp[i-1][m][k][1],max(dp[i-1][m][k][2],dp[i-1][m][k][0]));
-  
-  dp[i][j][k][1]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]));
-  
-  dp[i][j][k][2]=max(dp[i-1][m][k-1][2],max(dp[i-1][m][k-1][1],dp[i-1][m][k-1][0]))+1;
-  其余位置要考虑这个格子颜色是否和前一个格子的颜色相等，如果相等，就有
-  
-  dp[i][j][k][2]=dp[i][j-1][k][2]+1;
-  可以直接接上
-  
-  dp[i][j][k][1]=max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]);
-  前面涂错或不涂
-  
-  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][1]);
-  前面涂错或不涂 如果不相等,
-  
-  dp[i][j][k][2]=max(dp[i][j-1][k-1][2],max(dp[i][j-1][k][1],dp[i][j-1][k-1][0]))+1;
-  前面可能有三种情况
-  
-  dp[i][j][k][1]=max(dp[i][j-1][k][2],dp[i][j-1][k-1][0]);
-  涂对或不涂       
-  
-  dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][2]);
-  涂对或不涂
-  ```
-
-  
+## Problem 13
 
