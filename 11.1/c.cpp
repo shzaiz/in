@@ -9,9 +9,12 @@ int solve(int x,int y){
     }
 }
 signed main(){
-    #ifdef FUCKCCF
+    #ifdef XBZAKIOI
     freopen("D:/Testcases/in.ac","r",stdin);
     freopen("D:/Testcases/out.ac","w",stdout);
+    #else
+    freopen("akioi.in","r",stdin);
+    freopen("akioi.out","w",stdout);
     #endif
     int T;cin>>T;while(T--) {int x,y;cin>>x>>y;solve(x,y);}
     return 0;
