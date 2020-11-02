@@ -713,5 +713,77 @@ int main()
 
 # Interval DP
 
-## Problem 13
+## Problem 13. [关路灯 ](https://www.luogu.com.cn/problem/P1220)
+
+- 观察区间特征: 因为经过一个路灯的时候, 关掉总比不关好.
+
+- 找到状态转移:
+
+  ```cpp
+  f[i][j][0] = min ( f[i+1][j][0] + ( a[i+1] - a[i] ) * ( sum[i] + sum[n] - sum[j] ) , f[i+1][j][1] + ( a[j]-a[i] ) * ( sum[i]+sum[n]-sum[j]) );
+  
+  f[i][j][1] = min ( f[i][j-1][0] + ( a[j] - a[i] ) * ( sum[i-1] + sum[n] - sum[j-1] ) , f[i][j-1][1] + ( a[j]-a[j-1] ) * ( sum[i-1] + sum[n] - sum[j-1] ) );
+  ```
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 55;
+int f[N][N][2] , n , c;
+int pos[N] , w[N] , sum[N];
+int main () {
+    cin>>n>>c;
+    for(int i = 1 ; i <= n ; ++ i) scanf("%d %d" , pos + i , w + i) ,sum[i] = sum[i - 1] + w[i];
+    for(int i = 1 ; i <= n ; ++ i)
+        for(int j = 1 ; j <= n ; ++ j) f[i][j][1] = f[i][j][0] = 1000000000; 
+    f[c][c][0] = f[c][c][1] = 0;
+    for(int len = 2 ; len <= n ; ++ len) {
+        for(int i = 1 ; i <= n - len + 1 ; ++ i) {
+            int j = i + len - 1;
+            f[i][j][1] = min(f[i + 1][j][1] + (pos[i + 1] - pos[i]) * (sum[n] - sum[j] + sum[i]) , f[i + 1][j][0] + (pos[j] - pos[i]) * (sum[n] - sum[j] + sum[i]));
+            f[i][j][0] = min(f[i][j - 1][0] + (pos[j] - pos[j - 1]) * (sum[i-1] + sum[n] - sum[j-1]) , f[i][j - 1][1] + (pos[j] - pos[i]) * (sum[i-1] + sum[n] - sum[j-1]));
+        }
+    }
+    printf("%d" ,min(f[1][n][1] , f[1][n][0]));
+    return 0;
+} 
+```
+
+## Problem 14.[合唱队](https://www.luogu.com.cn/problem/P3205)
+
+- 考虑区间的特征. 加入进来一个人的话就可以满足区间的扩展.
+
+- 转移方程是:
+
+  ```cpp
+  if(a[i]<a[i+1])f[i][j][0]+=f[i+1][j][0];
+  if(a[i]<a[j])f[i][j][0]+=f[i+1][j][1];
+  if(a[j]>a[i])f[i][j][1]+=f[i][j-1][0];
+  if(a[j]>a[j-1])f[i][j][1]+=f[i][j-1][1];
+  ```
+
+```cpp
+#include <cstdio>
+using namespace std;
+int num[1001], dp[1001][1001];
+int main() {
+	int n;
+	scanf("%d", &n);
+	for (int i = 1; i <= n; i++){
+	    scanf("%d", num + i);
+	    dp[i][i] = 1;
+	}
+	for (int i = 2; i <= n; i++)
+	    for (int j = 1; i + j - 1 <= n; j++){
+	    	int k = i + j - 1;
+	    	if (num[j] < num[j + 1])           dp[k][j] += dp[k][j + 1];
+	    	if (num[j] < num[k] && j != k - 1) dp[k][j] += dp[j + 1][k];
+	    	if (num[k] > num[k - 1])           dp[j][k] += dp[j][k - 1];
+	    	if (num[k] > num[j] && j != k - 1) dp[j][k] += dp[k - 1][j];
+	    	dp[j][k] %= 19650827, dp[k][j] %= 19650827;
+		}
+	printf("%d\n", (dp[1][n] + dp[n][1]) % 19650827);
+	return 0;
+}
+```
 
