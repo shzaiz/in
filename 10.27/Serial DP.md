@@ -777,6 +777,238 @@ f[i-1][j][k]
 $$
 对于所有可能的情况, 进行判断然后算出面积. 更新出最大值即可.
 
+```cpp
+#include <bits/stdc++.h>
+#define ____debug_____ 1
+#define deb if(____debug_____)
+#define N 1005
+#define fo(i,b,x) for(register int i =b;i<=x;++i)
+using namespace std;
+#define D double
+#define ll long long
+int n,a[N],S[N],f[N][N];D ans=-1;
+D calc(D a,D b,D c){
+	D p = (a+b+c)/2;
+	return sqrt(p*(p-a)*(p-b)*(p-c));
+}
+bool tran(D a, D b,D c){
+	if(a+b>c && b+c>a && a+c>b) return 1;
+	else return 0; 
+}
+int main(){
+	#ifndef ONLINE_JUDGE
+	freopen("D:\\Testcases\\in.ac","r",stdin);
+	freopen("D:\\Testcases\\out.ac","w",stdout);
+	#endif 
+	cin>>n;
+	fo(i,1,n) cin>>a[i];
+	S[1] = a[1];
+	fo(i,2,n) S[i] = S[i-1]+ a[i];
+	f[0][0] = 1;
+	fo(i,1,n){
+		for(int j = S[n]/2;j>=0;j--){
+			for(int k = S[n]/2;k>=0;k--){
+				if(j-a[i] >= 0 && f[j-a[i]][k]) f[j][k] = 1;
+				if(k-a[i] >= 0 && f[j][k-a[i]]) f[j][k] = 1;
+			}
+		}
+	}
+	int m = S[n];
+	for(ll i=m/2;i>0;i--)
+	for(ll j=m/2;j>0;j--){
+    	if(!f[i][j]) continue;
+       	if(!tran(i,j,m-i-j)) continue;
+    	ans=max(ans,calc(i,j,m-i-j)); 
+    }	
+    if(ans == -1) {cout<<"-1" ; return 0;
+	}
+	cout<<(int)(ans*100);
+	
+	
+}
+```
+
+## Problem 14. [垃圾陷阱](https://www.luogu.com.cn/problem/P1156)
+
+- 可以考虑背包入手.
+
+- ```cpp
+  #include<cstdio>
+  #include<cstring>
+  #include<algorithm>
+  using namespace std;
+  const int N=100+5,INF=2147483647;
+  struct strOfRubbish {
+  	int time,food,height;
+  } rubbish[N];
+  inline bool cmp(strOfRubbish x,strOfRubbish y) {
+  	return x.time<y.time;
+  }
+  int d,n,res=-INF,ans,dp[N][N];
+  inline int readInt(void) {
+  	int __temp;
+  	scanf("%d",&__temp);
+  	return __temp;
+  }
+  int main() {
+  	d=readInt(),n=readInt();
+  	dp[0][0]=10;
+  	for(int i=1;i<=n;i++) {
+  		rubbish[i].time=readInt();
+  		rubbish[i].food=readInt();
+  		rubbish[i].height=readInt();
+  	}
+  	sort(rubbish+1,rubbish+n+1,cmp);
+  	for(int i=0;i<n;i++) {
+  		for(int j=0;j<=d;j++) {
+  			if(dp[i][j]>=rubbish[i+1].time) {
+  				int sm=j+rubbish[i+1].height;
+  				if(sm>=d) {
+  					printf("%d\n",rubbish[i+1].time);
+  					return 0;
+  				}
+  				dp[i+1][j]=max(dp[i+1][j],dp[i][j]+rubbish[i+1].food);
+  				dp[i+1][sm]=max(dp[i+1][sm],dp[i][j]);
+  			}
+  		}
+  	}
+  	for(int i=1;i<=n;i++) {
+  		res=max(res,dp[i][0]);
+  	}
+  	printf("%d",res);
+  	return 0;
+  }
+  ```
+
+## Problem 15. [飞扬的小鸟](https://www.luogu.com.cn/problem/P1941)
+
+- 考虑现在在$(i,j)$的位置的点击数.
+- $f[i][j] = min(f[i-1][j+b],f[i-1][j-b]+1) \text{ only when not blocked}$ 
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+struct Pipe {
+    int pos, up, bottom;
+} pipe[10010];
+const int MAXN = (1 << 30);
+int n, m, k, lift[10010], down[10010], f[10010][1010];
+bool cmp(Pipe a, Pipe b) {
+    return a.pos < b.pos;
+}
+int main(){
+    scanf("%d%d%d", &n, &m, &k);
+    for (int i = 0; i <= n - 1; i++)
+        scanf("%d%d", &lift[i], &down[i]);
+    for (int i = 1; i <= k; i++)
+        scanf("%d%d%d", &pipe[i].pos, &pipe[i].bottom, &pipe[i].up);
+    sort(pipe + 1, pipe + k + 1, cmp);
+    for (int i = 0; i <= n; i++) {
+        for (int j = 0; j <= m; j++)
+            f[i][j] = MAXN;
+    }
+    for (int i = 1; i <= m; i++) f[0][i] = 0;
+    int nump = 1;
+    for (int i = 1; i <= n; i++) {
+        int lower = 1, upper = m;
+        if (pipe[nump].pos == i) {
+            upper = pipe[nump].up - 1;
+            lower = pipe[nump++].bottom + 1;
+        }
+        for (int j = 1; j <= upper; j++) {
+            for (int k = j - lift[i - 1]; k <= m; k++) {
+                if (k > j - lift[i - 1] && j < m) break; 
+                if (k >= 1) f[i][j] = min(f[i][j], min(f[i - 1][k], f[i][k]) + 1);
+            }
+        }
+        for (int j = lower; j <= upper; j++) {
+            if (j + down[i - 1] <= m) { 
+                f[i][j] = min(f[i][j], f[i - 1][j + down[i - 1]]);
+            }
+        }
+        for (int j = 1; j <= lower - 1; j++) f[i][j] = MAXN; 
+    }
+    int minn = MAXN;
+    bool flag = false;
+    for (int i = n; i >= 1; i--) {
+        for (int j = 1; j <= m; j++) {
+            if (f[i][j] != MAXN) {flag = true;minn = min(minn, f[i][j]);
+            }
+        }
+        if (flag) {
+            if (i == n) {
+                printf("1\n%d", minn);
+                return 0;
+            }
+            else {
+                for (int j = k; j >= 1; j--) {
+                    if (i >= pipe[j].pos) {
+                        printf("0\n%d", j);
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
+    printf("0\n0");
+    return 0;
+
+}
+```
+
+## Problem 16. [多米诺骨牌](https://www.luogu.com.cn/problem/P1282)
+
+- 首先看到反转这个操作. 可以想到背包. 考虑对于每一个反转不反转. 反转的话就是$-k$. 不反转的话就是+k.
+- 定义$f[i][j]$为进行到第$i$个, 当前数量为$j$的翻转数.
+
+```cpp
+#include <cstdio>
+using namespace std;
+int dp[10005][6005];
+bool vs[1005][60005];
+int w[1005];
+int v[1005];
+int min(int a,int b){
+	return a<b ?  a: b;
+}
+int main(){
+
+	int n,i,j,x,y,base=0,tot=0;
+	scanf("%d",&n);
+	for(i=1;i<=n;i++) {
+		scanf("%d%d",&x,&y);
+		if(x>y){
+			v[i]=2*(x-y);
+			w[i]=1;
+			tot+=x-y;
+		}
+		if(y>x) {
+			v[i]=2*(y-x);
+			w[i]=-1;
+			tot+=y-x;
+			base++;
+		}
+	}
+	for(i=1;i<=n;i++){
+		for(j=1;j<=tot;j++){
+			dp[i][j]=dp[i-1][j];
+			vs[i][j]=vs[i-1][j];
+			if(vs[i-1][j-v[i]]||j-v[i]==0){
+				if(!vs[i][j]){
+					dp[i][j]=dp[i-1][j-v[i]]+w[i];
+					vs[i][j]=1;
+				}
+				else dp[i][j]=min(dp[i][j],dp[i-1][j-v[i]]+w[i]);
+			}
+		}
+	}
+	for(i=tot;i>=1;i--)	if(vs[n][i]) break;
+	printf("%d",base+dp[n][i]);
+} 
+```
+
+
+
 # Interval DP
 
 ## Problem 14. [关路灯 ](https://www.luogu.com.cn/problem/P1220)

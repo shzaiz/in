@@ -2,6 +2,7 @@
 using namespace std;
 #define lowbit(x) (x&(-x))
 #define N 100050
+#define int long long
 int n,V[N],T[N],S[N];
 #define fo(i,x) for(register int i = 1;i<=(x);++i)
 #define fo2(i,x) for(register int i = 2;i<=(x);++i)
@@ -23,9 +24,14 @@ int getsum(int i){
      }
      return res;
  }
-int main(){
+signed main(){
+	#ifdef XBZAKIOI
+	freopen("D:/Testcases/in.ac","r",stdin);
+	freopen("D:/Testcases/out.ac","w",stdout);
+	#else
 	freopen("snow.in","r",stdin);
 	freopen("snow.out","w",stdout);
+	#endif
 	cin>>n;
 	fo(i,n) cin>>V[i];
 	cin>>T[1];
@@ -38,7 +44,7 @@ int main(){
 	deb cout<<"\n";
 	fo(i,n){
 		int jilei = S[i-1] + V[i];
-		int which = lower_bound(S+1,S+n,jilei) - S;
+		int which = lower_bound(S+1,S+n+1,jilei) - S;
 		deb printf("Add %d~%d with val %d\n",i,which,1);
 		ans[which] += V[i] - (S[which-1]-S[i-1]);
 		updata(i,1);
