@@ -246,7 +246,6 @@ int main(){
 
 ## Problem 4.[Golden Sword](https://www.luogu.com.cn/problem/P5858)
 
-- Q1. 拿出来东西怎么处理? A: 拿出来可以想做替换的过程.
 - 经过手%样例我们可以发现应该如何设计状态: $f[i][j]$表示当前有了$i$个物品, 放入的物品编号为$j$的情况.
 - 状态转移 : $f[i][j] = \max(f[i-u][j-1]),u\in[0,s]$.
 - 代码实现.
@@ -640,6 +639,55 @@ int main()
   dp[i][j][k][0]=max(dp[i][j-1][k][0],dp[i][j-1][k][2]);
   涂对或不涂
   ```
+  
+  所以是
+  
+  ```cpp
+  #include <bits/stdc++.h>
+  using namespace std;
+  #define N 105
+  int n,m,t,dp[3][N][5998][3];
+  #define fo(i,x) for(register int i = 1;i<=(x);i++)
+  bool col[N][N];
+  int main(){
+      #ifdef XBZAKIOI
+      freopen("D:/Testcases/in.ac","r",stdin);
+      freopen("D:/Testcases/out.ac","w",stdout);
+      #endif
+      cin>>n>>m>>t;
+      for(int i=1;i<=n;i++){
+          char c[N];
+          scanf("%s",c+1);
+          for(int j=1;j<=m;j++)
+              col[i][j]=c[j]-'0';
+      }
+      fo(i,n) fo(j,m) fo(k,t){
+          if(j==1){
+              dp[i&1][j][k][0]=max(dp[(i-1)&1][m][k][1],dp[(i-1)&1][m][k][0]);
+              dp[i&1][j][k][0]=max(dp[i&1][j][k][0],dp[(i-1)&1][m][k][2]);
+              dp[i&1][j][k][1]=max(dp[(i-1)&1][m][k-1][1],dp[(i-1)&1][m][k-1][0]);
+              dp[i&1][j][k][1]=max(dp[i&1][j][k][1],dp[(i-1)&1][m][k-1][2]);
+              dp[i&1][j][k][2]=max(dp[(i-1)&1][m][k-1][1],dp[(i-1)&1][m][k-1][0])+1;
+              dp[i&1][j][k][2]=max(dp[i&1][j][k][2],dp[(i-1)&1][m][k-1][2]+1);
+          }else{
+              if(col[i][j] == col[i][j-1]){
+                  dp[i&1][j][k][2]=dp[i&1][j-1][k][2]+1;
+                  dp[i&1][j][k][1]=max(dp[i&1][j-1][k][1],dp[i&1][j-1][k-1][0]);
+                  dp[i&1][j][k][0]=max(dp[i&1][j-1][k][0],dp[i&1][j-1][k][1]);
+              }else{
+                  dp[i&1][j][k][2]=max(dp[i&1][j-1][k][1],dp[i&1][j-1][k-1][0])+1;
+                  dp[i&1][j][k][2]=max(dp[i&1][j-1][k-1][2]+1,dp[i&1][j][k][2]);
+                  dp[i&1][j][k][1]=max(dp[i&1][j-1][k][2],dp[i&1][j-1][k-1][0]);
+                  dp[i&1][j][k][0]=max(dp[i&1][j-1][k][0],dp[i&1][j-1][k][2]);
+              }
+          }
+      }
+      printf("%d",max(max(dp[n&1][m][t][0],dp[n&1][m][t][1]),dp[n&1][m][t][2]));
+      return 0;
+  }
+  ```
+  
+  
 
 ## Problem 12.挑战
 
@@ -709,11 +757,29 @@ int main()
 
 首先排序然后进行0-1背包.
 
+## Problem 13. [三角形牧场](https://www.luogu.com.cn/problem/P1284)
 
+首先读题:==所有的木板==.
+
+考虑一条边一条边加进来的过程:定义$f[i]$表示到达第$i$个的情况 . 发现不太行, 因为依赖于情况. $f[i][j][k][l]$表示到达第$i$条边, 三边长为$(j,k,l)$的最大长度.
+
+因为发现所有的三角形都要有, 所以我们可以减去一维: $f[i][j][k]$表示到达了第$i$个位置, $j,k$表示两条边. 因为三条边都要用, 所以用总长度减去前两条便就是第三条的数量.
+
+- 注意: 三角形的面积公式: $S = \sqrt{p(p-a)(p-b)(p-c)}. $ 其中$p=\frac{a+b+c}{2}$.
+
+进行状态转移: 
+$$
+f[i][j][k] \leftarrow \begin{cases} 
+f[i-1][j-a[i]][k]\\
+f[i-1][j][k-a[i]]\\
+f[i-1][j][k]
+\end{cases}
+$$
+对于所有可能的情况, 进行判断然后算出面积. 更新出最大值即可.
 
 # Interval DP
 
-## Problem 13. [关路灯 ](https://www.luogu.com.cn/problem/P1220)
+## Problem 14. [关路灯 ](https://www.luogu.com.cn/problem/P1220)
 
 - 观察区间特征: 因为经过一个路灯的时候, 关掉总比不关好.
 
@@ -749,7 +815,7 @@ int main () {
 } 
 ```
 
-## Problem 14.[合唱队](https://www.luogu.com.cn/problem/P3205)
+## Problem 15.[合唱队](https://www.luogu.com.cn/problem/P3205)
 
 - 考虑区间的特征. 加入进来一个人的话就可以满足区间的扩展.
 
