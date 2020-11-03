@@ -1007,7 +1007,11 @@ int main(){
 } 
 ```
 
+## Problem 17. [排兵布阵](https://www.luogu.com.cn/problem/P5322)
 
+- 注意到对于之后的几场, 都要有相同的策略.
+- 直观的考虑: $f[i][j]$表示当前道理第$i$个, 现在剩余兵力为$j$.
+- 考虑到第$i$个按谁去打.
 
 # Interval DP
 
