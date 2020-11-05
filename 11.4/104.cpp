@@ -7,10 +7,11 @@ using namespace std;
 #define deb if(using_debug_output)
 #define fil if(using_file_is_okay)
 #define realfl if(this_is_a_real_file_output)
+#define int long long
 const int N = 1000005<<4;
 const bool using_debug_output = 0;
 const bool using_file_is_okay = 0;
-const bool this_is_a_real_file_output = 0;
+const bool this_is_a_real_file_output = 1;
 int l[N],r[N],sum[N],lz[N],a[N];
 int Q,n;
 void pushup(int o){
@@ -58,11 +59,11 @@ void add(int o,int ll,int rr,int L,int R,int c){
 
 
 
-int main(){
+signed main(){
 	fil freopen("D:\\Testcases\\in.ac","r",stdin);
 	fil freopen("D:\\Testcases\\out.ac","w",stdout);
-	realfl freopen("103.in","r",stdin);
-	realfl freopen("103.out","w",stdout); 
+	realfl freopen("104.in","r",stdin);
+	realfl freopen("104.out","w",stdout); 
 	cin>>n>>Q;
 	for(int i = 1;i<=n;i++){
 		cin>>a[i];
