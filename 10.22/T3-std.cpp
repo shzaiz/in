@@ -39,7 +39,7 @@ void dfs(int u, int fa) {
 
 signed main() {
 #ifndef ONLINE_JUDGE
-  freopen("D:/Testcases/in.ac", "r", stdin);freopen("D:/Testcases/out.ac", "w", stdout);
+  freopen("lemon.in", "r", stdin);freopen("lemon.out", "w", stdout);
 #endif
   cin >> n >> k;
   for (int i = 1; i <= n; i++) cin >> alp[i];
