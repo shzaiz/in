@@ -1,109 +1,110 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-struct Tr{
-    int siz,v,pr,l,r,fa;
-};
-Tr tr[400005];
-int S=0,root=0,n,m,a[200005];
-int pos[200005];
-void maintain(int k){
-    tr[k].siz=1;
-    if(tr[k].l)tr[k].siz+=tr[tr[k].l].siz,tr[tr[k].l].fa=k;
-    if(tr[k].r)tr[k].siz+=tr[tr[k].r].siz,tr[tr[k].r].fa=k;
+const int N=80000+5;
+int n, m, id[N], a[N], root, r1, r2, r3, r4, cnt = 0;
+struct treap{
+    int ch[2], fa, size, rd, val;
+}t[N];
+int gi(){
+    int ans = 0, f = 1; char i = getchar();
+    while(i<'0' || i>'9'){ if(i == '-') f = -1; i = getchar(); }
+    while(i>='0' && i<='9') ans = ans*10+i-'0', i = getchar();
+    return ans * f;
 }
-int newnode(int k){
-    S++,tr[S].v=k,tr[S].pr=rand(),tr[S].siz=1;
-    tr[S].l=tr[S].r=tr[S].fa=0;
-    return S;
+int newnode(int val){
+    t[++cnt].val = val; t[cnt].rd = rand(), t[cnt].size = 1;
+    id[val] = cnt; return cnt;
 }
-void Split_K(int now,int k,int &x,int &y){
-    if(!now)x=y=0;
-    else{
-        if(k>tr[tr[now].l].siz)
-            x=now,Split_K(tr[now].r,k-tr[tr[now].l].siz-1,tr[now].r,y);
-        else
-            y=now,Split_K(tr[now].l,k,x,tr[now].l);
-        maintain(now);
+void up(int x){ t[x].size = t[t[x].ch[0]].size+t[t[x].ch[1]].size+1; }
+
+void split(int x, int k, int &a, int &b, int faa = 0, int fab = 0){
+    if(x == 0){ a = b = 0; return; }
+    if(k <= t[t[x].ch[0]].size) t[x].fa = fab, b = x, split(t[x].ch[0], k, a, t[x].ch[0], faa, x);
+    else t[x].fa = faa, a = x, split(t[x].ch[1], k-t[t[x].ch[0]].size-1, t[x].ch[1], b, x, fab); up(x);
+}
+
+int merge(int x, int y){
+    if(x == 0 || y == 0) return x+y;
+    if(t[x].rd < t[y].rd){
+		t[x].ch[1] = merge(t[x].ch[1], y);
+		t[t[x].ch[1]].fa = x; up(x); return x;
+    }
+    else {
+		t[y].ch[0] = merge(x, t[y].ch[0]);
+		t[t[y].ch[0]].fa = y; up(y); return y;
     }
 }
-int Merge(int x,int y){
-    if(!x||!y)return x+y;
-    if(tr[x].pr<tr[y].pr){
-        tr[x].r=Merge(tr[x].r,y);
-        maintain(x);
-        return x;
-    }else{
-        tr[y].l=Merge(x,tr[y].l);
-        maintain(y);
-        return y;
-    }
+
+void insert(int pos, int val){
+    split(root, pos, r1, r2);
+    root = merge(r1, merge(newnode(val), r2));
 }
-int read(){
-    int f=1,x=0;char c=getchar();
-    while(c<'0'||c>'9'){if(c=='-')f=-f;c=getchar();}
-    while(c>='0'&&c<='9')x=x*10+c-'0',c=getchar();
-    return f*x; 
-}    
-int get_pos(int x){
-    int res=1+tr[tr[x].l].siz;
-    while(tr[x].fa){
-        if(x==tr[tr[x].fa].r)
-            res+=tr[tr[tr[x].fa].l].siz+1;
-        x=tr[x].fa;
+
+bool get(int x){ return t[t[x].fa].ch[1] == x; }
+
+int find(int cnt){
+    int node = cnt, res = t[t[cnt].ch[0]].size+1;
+    while(node != root && cnt){
+		if(get(cnt)) res += t[t[t[cnt].fa].ch[0]].size+1;
+		cnt = t[cnt].fa;
     }
     return res;
 }
-void init(){
-    srand(12414841);
-    tr[0].siz=tr[0].v=tr[0].fa=0;
-    n=read(),m=read();
-    for(int i=1;i<=n;i++)a[i]=read();
-    for(int i=1;i<=n;i++)
-        pos[a[i]]=newnode(a[i]),
-        root=Merge(root,pos[a[i]]);
-}
-void solve(){
-    char ord[10];
-    int x,u,v,w,y,z,t,i1,i2;//全是辅助变量
+
+int main(){
+    #ifdef XBZAKIOI
+    freopen("D:/Testcases/in.ac","r",stdin);
+    freopen("D:/Testcases/out.ac","w",stdout);
+    #endif
+    char opt[10]; int x, y, k; n = gi(), m = gi(); srand(998246556443543);
+    for(int i=1;i<=n;i++) a[i] = gi(), insert(i-1, a[i]);
     for(int i=1;i<=m;i++){
-        scanf("%s",ord);
-        u=v=w=y=z=t=0;
-        if(ord[0]=='A')
-            x=read(),
-            printf("%d\n",get_pos(pos[x])-1);
-        if(ord[0]=='T'){
-            x=read(),u=get_pos(pos[x]);
-            Split_K(root,u-1,w,z);
-            Split_K(z,1,y,v);
-            root=Merge(Merge(y,w),v);
-        }
-        if(ord[0]=='B'){
-            x=read(),u=get_pos(pos[x]);
-            Split_K(root,u-1,w,z);
-            Split_K(z,1,y,v);
-            root=Merge(Merge(w,v),y);
-        }    
-        if(ord[0]=='Q'){
-            x=read();
-            Split_K(root,x-1,w,z);
-            Split_K(z,1,y,v);
-            printf("%d\n",tr[y].v);
-            root=Merge(Merge(w,y),v);
-        }
-        if(ord[0]=='I'){
-            x=read(),y=read();
-            if(y){
-                u=get_pos(pos[x]);
-                Split_K(root,u-1,w,v);
-                Split_K(v,1,t,z);
-                if(y==-1){
-                    Split_K(w,u-2,i1,i2);
-                    root=Merge(Merge(Merge(i1,t),i2),z);
-                }else{
-                    Split_K(z,1,i1,i2);
-                    root=Merge(Merge(Merge(w,i1),t),i2);
-                }
-            }
-        }
+		scanf("%s", opt); x = gi();
+		
+		if(opt[0] == 'T'){
+		    k = find(id[x]);
+		    split(root, k, r1, r3);
+		    split(r1, k-1, r1, r2);
+		    root = merge(r2, merge(r1, r3));
+		}
+		
+		if(opt[0] == 'B'){
+		    k = find(id[x]);
+		    split(root, k, r1, r3, 0);
+		    split(r1, k-1, r1, r2, 0);
+		    root = merge(r1, merge(r3, r2));
+		}
+		
+		if(opt[0] == 'I'){
+		    y = gi(); k = find(id[x]);
+		    if(y){
+				if(y > 0){
+				    split(root, k+1, r3, r4);
+				    split(r3, k, r2, r3);
+				    split(r2, k-1, r1, r2);
+				    root = merge(r1, merge(r3, merge(r2, r4)));
+				}
+				else {
+				    split(root, k, r3, r4);
+				    split(r3, k-1, r2, r3);
+				    split(r2, k-2, r1, r2);
+				    root = merge(r1, merge(r3, merge(r2, r4)));
+				}
+		    }
+		}
+		
+		if(opt[0] == 'A'){
+		    k = find(id[x]);
+		    printf("%d\n", k-1);
+		}
+		
+		if(opt[0] == 'Q'){
+		    split(root, x, r1, r2);
+		    int node = r1;
+		    while(t[node].ch[1]) node = t[node].ch[1];
+		    printf("%d\n", t[node].val);
+		    root = merge(r1, r2);
+		}
     }
+    return 0;
 }

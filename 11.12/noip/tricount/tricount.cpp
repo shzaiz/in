@@ -6,7 +6,7 @@ using namespace std;
 #define fo(i,x) for(int i = 1;i<=x;i++)
 #define fo_(i,b,x) for(int i = b;i<=x;i++)
 #define re(i,x,b) for(int i = x;i>b;i--)
-#define N 10010
+#define N 200010 
 #define int long long
 #define deb if(using_debug_output)
 #define fil if(using_temp_file)
