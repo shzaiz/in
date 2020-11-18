@@ -8,6 +8,7 @@
                 "-g",
                 "${file}",
                 "-D XBZAKIOI",
+                "-std=c++11",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
