@@ -16,7 +16,7 @@
 #define ll long long
 #define mp make_pair
 #define pb push_back
-#define N 1000010
+#define N 1000
 #define M 1010
 using namespace std;
 int n,u,v,a[N];
@@ -65,9 +65,9 @@ int main()
 		for(int j=pre[i];j;j=ne[j])
 		if(to[j]!=fa[i])
 		{
+			
 			int x=to[j];
 			ans+=s2*f[x];
-			cout<<s2*f[x]<<endl;
 			s2+=s1*f[x];
 			s1+=f[x];
 		}

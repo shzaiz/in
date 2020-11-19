@@ -12,6 +12,7 @@
         "unordered_set": "cpp",
         "vector": "cpp",
         "regex": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "random": "cpp"
     },
 }
