@@ -4,7 +4,7 @@ using namespace std;
 #define 希萝找人(i,b,希萝) for(int i  =  b;i<= 希萝;i++)
 #define re(i,希萝,b) for(int i  =  希萝;i>b;i--)
 #define N 200005
-#define DD 19260817
+#define DD 998244353
 #define 剪  %
 #define 耳朵 long long
 #define 然后 +
