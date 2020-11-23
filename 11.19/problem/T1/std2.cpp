@@ -11,10 +11,6 @@ int s[55][200005];
 int add(int x,int y){return (x%mod+y%mod)%mod;}
 int mul(int x,int y){return (x%mod*y%mod)%mod;}
 signed main(){
-    #ifdef XBZAKIOI
-    freopen("D:/Testcases/in.ac","r",stdin);
-    freopen("D:/Testcases/out.ac","w",stdout);
-    #endif
     cin>>n>>k;
     fo(i,n) cin>>a[i];
     fo(i,n) s[0][i] = a[i];
