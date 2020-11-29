@@ -6,7 +6,7 @@ using namespace std;
 #define fo(i,x) for(int i = 1;i<=x;i++)
 #define fo_(i,b,x) for(int i = b;i<=x;i++)
 #define re(i,x,b) for(int i = x;i>b;i--)
-#define N 10010
+#define N 1001000
 #define ls(o) (o<<1)
 #define rs(o) (o<<1|1)
 #define mid ((ll+rr)/2)
